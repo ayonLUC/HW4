@@ -1,6 +1,6 @@
 /*
  * *** YOUR NAME GOES HERE / YOUR SECTION NUMBER ***
- *
+ * Salvador Ayon 272 002
  * This hashMap object represents an over simplification of Java's implementation of HashMap within
  * Java's Collection Framework Library. You are to complete the following methods:
  *  - remove(K)
@@ -230,7 +230,23 @@ class myHashMap<K,V> {
          * the return value discussion in this method's prologue to make sure the correct
          * return value is returned the invoking function based on the remove outcome.
          */
+        int index = getBucketIndex(key);
+        HashNode<K, V> head = bucket.get(index);
+        HashNode<K, V> prev = null;
 
+        while (head != null) {
+            if (head.key.equals(key)) {
+                if (prev != null) {
+                    prev.next = head.next;
+                } else {
+                    bucket.set(index, head.next);
+                }
+                size--;
+                return head.value;
+            }
+            prev = head;
+            head = head.next;
+        }
         return null;
     }
 
@@ -398,16 +414,26 @@ class myHashMap<K,V> {
      */
 
     public V replace(K key, V val) {
+        int index = getBucketIndex(key);
+        HashNode<K, V> head = bucket.get(index);
 
+        while (head != null) {
+            if (head.key.equals(key)) {
+                V oldValue = head.value;
+                head.value = val;
+                return oldValue;
+            }
+            head = head.next;
+        }
+        return null;
+    }
         /*
          * ADD YOUR CODE HERE - DO NOT FORGET TO ADD YOUR NAME AT TOP OF FILE
          *
          * Make sure you return the proper value based on the outcome of this method's
          * replace (see method's prologue above).
-         */
 
-        return val;
-    }
+
 
     
     /**
@@ -426,7 +452,18 @@ class myHashMap<K,V> {
      */
 
     public boolean replace(K key, V oldVal, V newVal) {
+        int index = getBucketIndex(key);
+        HashNode<K, V> head = bucket.get(index);
 
+        while (head != null) {
+            if (head.key.equals(key) && head.value.equals(oldVal)) {
+                head.value = newVal;
+                return true;
+            }
+            head = head.next;
+        }
+        return false;
+    }
         /*
          * ADD YOUR CODE HERE
          *
@@ -434,8 +471,8 @@ class myHashMap<K,V> {
          * value 'oldval', and is so, it SHOULD call replace(K, V) for code reuse.
          */
 
-        return false;
-    }
+//        return false;
+//    }
 
 
     /**

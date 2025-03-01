@@ -32,7 +32,15 @@ class HashingProblems {
      */
 
     public double getAverage(HashMap<Integer, Integer> map, int[] array) {
+        double sum = 0;
+        int count = 0;
 
+        for (int key : array) {
+            if (map.containsKey(key)) {
+                sum += map.get(key);
+                count++;
+            }
+        }
         /*
          * ADD YOUR CODE HERE - DO NOT FORGET TO ADD YOU NAME AT TOP OF FILE
          *
@@ -55,7 +63,11 @@ class HashingProblems {
   public ArrayList<String> odd(HashMap<Integer, String> map) {
     
       ArrayList<String> result = new ArrayList<>();
-
+      for (int key : map.keySet()) {
+          if (key % 2 != 0) { // Check if key is odd
+              result.add(map.get(key)); // Add corresponding value to result list
+          }
+      }
       /*
        * ADD YOUR CODE HERE
        *
@@ -105,12 +117,25 @@ class HashingProblems {
    */
 
   public int twoSums(int[] numbers, int k) {
+      HashSet<Integer> set = new HashSet<>();
+      int count = 0;
 
+      // First pass: add all numbers to the set (O(n))
+      for (int num : numbers) {
+          set.add(num);
+      }
+
+      // Second pass: check for valid pairs (O(n))
+      for (int num : numbers) {
+          if (set.contains(num - k)) {
+              count++;
+          }
+      }
       /*
        * ADD YOUR CODE HERE
        */
 
-      return -1;
+      return count;
   }
 
 } /* end class HashingProblems */
